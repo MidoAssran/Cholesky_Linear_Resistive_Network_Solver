@@ -18,7 +18,6 @@ class LinearResistiveNetworkSolver(object):
     #-----Instance Variables-------#
     # _A -> The matrix 'A' in the system of equations Ax = b
     # _b -> The vector 'b' in the system of equations Ax = _b
-    # _x -> The vector of variables 'x' in the system of equations Ax = b
 
     def __init__(self, fname):
         """
@@ -43,21 +42,17 @@ class LinearResistiveNetworkSolver(object):
         J = network_branches[:, 0]
         Y = np.diag(1 / network_branches[:, 1])
         E = network_branches[:, 2]
-        A = (incidence_matrix.dot(Y).dot(np.transpose(incidence_matrix)))
-        b = (incidence_matrix.dot(J - Y.dot(E)))
-        self._x = None
+        A = incidence_matrix.dot(Y).dot(np.transpose(incidence_matrix))
+        b = incidence_matrix.dot(J - Y.dot(E))
         self._A = A
         self._b = b
-
 
     def solve(self):
         """
         :rtype: numpy.array([float64])
         """
         chol_decomp = CholeskyDecomposition()
-        self._x = chol_decomp.solve(A=self._A, b=self._b) # Will overwrite A, and b
-        return self._x
-
+        return chol_decomp.solve(A=self._A, b=self._b) # Will overwrite A, and b
 
 
 if __name__ == "__main__":

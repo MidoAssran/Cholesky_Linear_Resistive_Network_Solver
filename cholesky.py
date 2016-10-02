@@ -3,9 +3,9 @@
 # ----------------------------------------- #
 # Author: Mido Assran
 # Date: 30, September, 2016
-# Description: CholeskyDecomposition solves the linear system of equations: Ax = b by decomposing A
-# using Cholesky factorization and using forward and backward substitution to determine x. Matrix A
-# must be symmetric, real, and positive definite.
+# Description: CholeskyDecomposition solves the linear system of equations: Ax = b by decomposing matrix A
+# using Cholesky factorization and using forward and backward substitution to determine x. Matrix A must
+# be symmetric, real, and positive definite.
 
 import random
 import numpy as np
@@ -20,13 +20,13 @@ class CholeskyDecomposition(object):
         :rtype: np.array([float])
         """
 
-        m = A.shape[0]
-        n = A.shape[1]
-
         # If the matrix, A, is not square, exit
-        if m != n:
+        if A.shape[0] != A.shape[1]:
             return None
 
+        n = A.shape[1]
+
+        # Cholesky factorization & forward substitution
         for j in range(n):
 
             # If the matrix A is not positive definite, exit
@@ -37,20 +37,30 @@ class CholeskyDecomposition(object):
             b[j] /= A[j,j]              # Compute the j entry of the solution vector being solved for
 
 
-            for i in range(j+1, m):
+            for i in range(j+1, n):
                 A[i,j] /= A[j,j]        # Compute the i,j entry of chol(A) and overwritte
                 b[i] -= A[i,j] * b[j]   # Look ahead modification
 
                 # Look ahead moidification
-                for k in range(j+1, i):
+                for k in range(j+1, i+1):
                     A[i,k] -= A[i,j] * A[k,j]
+
+        A[:] = np.tril(A)
+        A[:] = np.transpose(A)
+
+        # Backward substitution
+        for j in range(n - 1, -1, -1):
+            b[j] /= A[j,j]
+
+            for i in range(j):
+                b[i] -= A[i,j] * b[j]
 
         return b
 
 
 if __name__ == "__main__":
-    order = 4
-    seed = 1
+    order = 10
+    seed = 5
 
     print("\n", end="\n")
     print("# ------------------------------------- TEST -------------------------------------- #", end="\n")
@@ -66,9 +76,5 @@ if __name__ == "__main__":
     print("b:\n", b, end="\n\n")
     chol_d = CholeskyDecomposition()
     v = chol_d.solve(A=A, b=b)
-    np.random.seed(seed)
-    A = np.random.randn(order, order)
-    A = A.dot(np.transpose(A))
-    print("x:\n", x, end="\n\n")
-    print("Ax:\n", A.dot(v), end="\n\n")
+    print("2-norm error:\n", np.linalg.norm(v - x), end="\n\n")
     print("# --------------------------------------------------------------------------------- #", end ="\n\n")

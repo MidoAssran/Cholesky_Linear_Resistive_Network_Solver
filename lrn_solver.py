@@ -45,7 +45,6 @@ class LinearResistiveNetworkSolver(object):
         E = network_branches[:, 2]
         A = (incidence_matrix.dot(Y).dot(np.transpose(incidence_matrix)))
         b = (incidence_matrix.dot(J - Y.dot(E)))
-
         self._x = None
         self._A = A
         self._b = b
@@ -56,7 +55,7 @@ class LinearResistiveNetworkSolver(object):
         :rtype: numpy.array([float64])
         """
         chol_decomp = CholeskyDecomposition()
-        self._x = chol_decomp.solve(A=self.A, b=self.b) # Will overwrite A, and b
+        self._x = chol_decomp.solve(A=self._A, b=self._b) # Will overwrite A, and b
         return self._x
 
 

@@ -12,6 +12,7 @@ import random
 import csv
 import numpy as np
 from cholesky import CholeskyDecomposition
+from utils import matrix_transpose, matrix_dot_matrix, matrix_dot_vector, vector_to_diag
 
 class LinearResistiveNetworkSolver(object):
 
@@ -40,10 +41,10 @@ class LinearResistiveNetworkSolver(object):
         network_branches = np.array(network_branches, dtype=np.float64)
         incidence_matrix = np.array(incidence_matrix, dtype=np.int64)
         J = network_branches[:, 0]
-        Y = np.diag(1 / network_branches[:, 1])
+        Y = vector_to_diag(1 / network_branches[:, 1])
         E = network_branches[:, 2]
-        A = incidence_matrix.dot(Y).dot(np.transpose(incidence_matrix))
-        b = incidence_matrix.dot(J - Y.dot(E))
+        A = matrix_dot_matrix(A=matrix_dot_matrix(A=incidence_matrix, B=Y), B=matrix_transpose(incidence_matrix))
+        b = matrix_dot_vector(A=incidence_matrix, b=(J - matrix_dot_vector(A=Y, b=E)))
         self._A = A
         self._b = b
 
@@ -56,6 +57,6 @@ class LinearResistiveNetworkSolver(object):
 
 
 if __name__ == "__main__":
-    lrn = LinearResistiveNetworkSolver("test.csv")
+    lrn = LinearResistiveNetworkSolver("test_c5.csv")
     voltages = lrn.solve()
     print("Voltages:", voltages, end="\n\n")

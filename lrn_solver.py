@@ -57,6 +57,6 @@ class LinearResistiveNetworkSolver(object):
 
 
 if __name__ == "__main__":
-    lrn = LinearResistiveNetworkSolver("test_c5.csv")
+    lrn = LinearResistiveNetworkSolver("data/test_c5.csv")
     voltages = lrn.solve()
     print("Voltages:", voltages, end="\n\n")

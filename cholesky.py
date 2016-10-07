@@ -8,6 +8,7 @@
 # be symmetric, real, and positive definite.
 
 import random
+import timeit
 import numpy as np
 from utils import matrix_transpose
 
@@ -20,6 +21,7 @@ class CholeskyDecomposition(object):
         :type b: np.array([float])
         :rtype: np.array([float])
         """
+        start_time = timeit.default_timer()
 
         # If the matrix, A, is not square, exit
         if A.shape[0] != A.shape[1]:
@@ -43,8 +45,12 @@ class CholeskyDecomposition(object):
 
 
             for i in range(j+1, n):
+
                 A[i,j] /= A[j,j]        # Compute the i,j entry of chol(A) and overwritte A
                 b[i] -= A[i,j] * b[j]   # Look ahead modification of b
+
+                if A[i,j] == 0:
+                    continue
 
                 # Look ahead moidification of A
                 for k in range(j+1, i+1):
@@ -65,6 +71,9 @@ class CholeskyDecomposition(object):
             for i in range(j):
                 b[i] -= A[i,j] * b[j]
         # ----------------------------------------------------------------------------------------------------------- #
+
+        elapsed_time = timeit.default_timer() - start_time
+        print("Execution time: ", elapsed_time, end="\n\n")
 
         # The solution was overwritten in the vector b
         return b

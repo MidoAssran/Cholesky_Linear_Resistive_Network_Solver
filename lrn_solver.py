@@ -50,7 +50,6 @@ class LinearResistiveNetworkSolver(object):
         self._A = A
         self._b = b
 
-
     def solve(self):
         """
         :rtype: numpy.array([float64])

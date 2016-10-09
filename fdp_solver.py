@@ -71,6 +71,15 @@ class FiniteDifferencePotentialSolver(object):
         return (indices[0] * self._h, indices[1] * self._h)
 
 
+    # Helper function that converts node locations in the mesh to indices
+    def map_coordinates_to_indices(self, coordinates):
+        """
+        :type coordinates: (float, float)
+        :rtype: (int, int)
+        """
+        return (int(coordinates[0] / self._h), int(coordinates[1] / self._h))
+
+
     # Solve for potentials using Successive Over Relaxation
     def solve_sor(self, max_residual, omega=1.5):
         """
@@ -289,4 +298,7 @@ class FiniteDifferencePotentialSolver(object):
 if __name__ == "__main__":
     fndps = FiniteDifferencePotentialSolver(h=0.005, method=FD_METHODS.SOR)
     num_itr = fndps.solve(max_residual=1e-5, omega=1.5)
+    potentials = fndps.getPotentials()
+    p = potentials[fndps.map_coordinates_to_indices((0.06, 0.04))]
     print("num_itr:", num_itr)
+    print("(0.06, 0.04):", p)

@@ -9,7 +9,6 @@
 
 import random
 import numpy as np
-from fd_methods import FD_METHODS
 from conductor_description import *
 
 DEBUG = True
@@ -17,21 +16,17 @@ DEBUG = True
 class FiniteDifferencePotentialSolver(object):
 
     #-----Instance Variables-------#
-    # _fd_method -> The finite difference method to be used to solve the problem
     # _h -> The inter-mesh node spacing
     # _num_x_points -> The number of mesh points in the x direction
     # _num_y_points -> The number of mesh points in the y direction
     # _potentials -> The electric potential at every point in the mesh
 
 
-    def __init__(self, h, method=FD_METHODS.SOR):
+    def __init__(self, h):
         """
         :type h: float
-        :type method: FD_Method
         :rtype: void
         """
-
-        self._fd_method = method
 
         self._h = h
 
@@ -47,10 +42,9 @@ class FiniteDifferencePotentialSolver(object):
         for i in range(self._num_x_points):
             for j in range(self._num_y_points):
                 coordinates = self.map_indices_to_coordinates((i,j))
-                # If in conductor
+                # If in conductor set potential to conductor potential
                 if (coordinates[0] >= INNER_COORDINATES[0]) and (coordinates[1] >= INNER_COORDINATES[1]):
-                    potentials[i, j] = 1.1e2
-
+                    potentials[i, j] = CONDUCTOR_POTENTIAL
         self._potentials = potentials
 
         if DEBUG:
@@ -85,13 +79,18 @@ class FiniteDifferencePotentialSolver(object):
         """
         :type max_residual: float
         :type omega: float
-        :rtype: int
+        :rtype: (int, np.array([float]))
         """
 
         if DEBUG:
             print("# --------------------------------------------------------------------------------- #", end ="\n")
             print("# Solving using Successive Over Relaxation Method:", end="\n")
             print("# --------------------------------------------------------------------------------- #", end ="\n\n")
+
+            if omega == 1:
+                print("# --------------------------------------------------------------------------------- #", end ="\n")
+                print("# Warning, the provided relaxation parameter reduces the method to Gauss-Seidl", end="\n")
+                print("# --------------------------------------------------------------------------------- #", end ="\n\n")
 
         residual = np.empty((self._num_x_points, self._num_y_points))
         condition = True
@@ -105,33 +104,31 @@ class FiniteDifferencePotentialSolver(object):
             for i in range(self._num_x_points):
                 for j in range(self._num_y_points):
 
+                    # If at a defined point (held at a fixed potential), skip updating this node
                     coordinates = self.map_indices_to_coordinates((i,j))
                     if (i == 0) or (j == 0) or ((coordinates[0] >= INNER_COORDINATES[0]) and (coordinates[1] >= INNER_COORDINATES[1])):
-                        # temp[i, j] = self._potentials[i, j]
                         continue
 
+                    # Determine adjacent node values: if at boundary apply boundary conditions, else just get adjacent node values
                     top, bottom, left, right = 0, 0, 0, 0
-
                     if (j + 1) >= self._num_y_points:
                         top = self._potentials[i, j - 1]
                     else:
                         top = self._potentials[i, j + 1]
-
                     if (i + 1) >= self._num_x_points:
                         right = self._potentials[i - 1, j]
                     else:
                         right = self._potentials[i + 1, j]
-
                     if (i - 1) < 0:
                         left = 0
                     else:
                         left = self._potentials[i - 1, j]
-
                     if (j - 1) < 0:
                         bottom = 0
                     else:
                         bottom = self._potentials[i, j - 1]
 
+                    # Perform update of potential
                     gauss_seidl = 0.25 * (top + bottom + left + right)
                     self._potentials[i, j] =  (1 - omega) * self._potentials[i, j] + omega * gauss_seidl
 
@@ -140,33 +137,32 @@ class FiniteDifferencePotentialSolver(object):
             for i in range(self._num_x_points):
                 for j in range(self._num_y_points):
 
+                    # If at a defined point (held at a fixed potential), skip computing this residual and fix at zero
                     coordinates = self.map_indices_to_coordinates((i,j))
                     if (i == 0) or (j == 0) or ((coordinates[0] >= INNER_COORDINATES[0]) and (coordinates[1] >= INNER_COORDINATES[1])):
                         residual[i, j] = 0
                         continue
 
+                    # Determine adjacent node values: if at boundary apply boundary conditions, else just get adjacent node values
                     top, bottom, left, right = 0, 0, 0, 0
-
                     if (j + 1) >= self._num_y_points:
                         top = self._potentials[i, j - 1]
                     else:
                         top = self._potentials[i, j + 1]
-
                     if (i + 1) >= self._num_x_points:
                         right = self._potentials[i - 1, j]
                     else:
                         right = self._potentials[i + 1, j]
-
                     if (i - 1) < 0:
                         left = 0
                     else:
                         left = self._potentials[i - 1, j]
-
                     if (j - 1) < 0:
                         bottom = 0
                     else:
                         bottom = self._potentials[i, j - 1]
 
+                    # Perform update of residual
                     residual[i, j] = top + bottom + left + right - 4 * self._potentials[i, j]
 
 
@@ -176,14 +172,14 @@ class FiniteDifferencePotentialSolver(object):
             # Whether or not the residual has become small enough to stop the process
             condition = not(np.all(residual <= max_residual))
 
-        return itr
+        return (itr, self._potentials)
 
 
     # Solve for potentials using Jacobi method
     def solve_jacobi(self, max_residual):
         """
         :type max_residual: float
-        :rtype: int
+        :rtype: (int, np.array([float]))
         """
 
         if DEBUG:
@@ -192,7 +188,6 @@ class FiniteDifferencePotentialSolver(object):
             print("# --------------------------------------------------------------------------------- #", end ="\n\n")
 
         temp = np.empty((self._num_x_points, self._num_y_points))
-        print(temp.shape)
         residual = np.empty((self._num_x_points, self._num_y_points))
         condition = True
         itr = 0
@@ -205,68 +200,67 @@ class FiniteDifferencePotentialSolver(object):
             for i in range(self._num_x_points):
                 for j in range(self._num_y_points):
 
+                    # If at a defined point (held at a fixed potential), skip updating this node
                     coordinates = self.map_indices_to_coordinates((i,j))
                     if (i == 0) or (j == 0) or ((coordinates[0] >= INNER_COORDINATES[0]) and (coordinates[1] >= INNER_COORDINATES[1])):
                         temp[i, j] = self._potentials[i, j]
                         continue
 
+                    # Determine adjacent node values: if at boundary apply boundary conditions, else just get adjacent node values
                     top, bottom, left, right = 0, 0, 0, 0
-
                     if (j + 1) >= self._num_y_points:
                         top = self._potentials[i, j - 1]
                     else:
                         top = self._potentials[i, j + 1]
-
                     if (i + 1) >= self._num_x_points:
                         right = self._potentials[i - 1, j]
                     else:
                         right = self._potentials[i + 1, j]
-
                     if (i - 1) < 0:
                         left = 0
                     else:
                         left = self._potentials[i - 1, j]
-
                     if (j - 1) < 0:
                         bottom = 0
                     else:
                         bottom = self._potentials[i, j - 1]
 
+                    # Perform update of potentials
                     temp[i, j] = 0.25 * (top + bottom + left + right)
 
+            # Only update global potentials here to ensure that the updates are performed using values at the same iteration
             self._potentials[:] = temp[:]
 
             # Update the residual
             for i in range(self._num_x_points):
                 for j in range(self._num_y_points):
 
+                    # If at a defined point (held at a fixed potential), skip computing this residual and fix at zero
                     coordinates = self.map_indices_to_coordinates((i,j))
                     if (i == 0) or (j == 0) or ((coordinates[0] >= INNER_COORDINATES[0]) and (coordinates[1] >= INNER_COORDINATES[1])):
                         residual[i, j] = 0
                         continue
 
+                    # Determine adjacent node values: if at boundary apply boundary conditions, else just get adjacent node values
                     top, bottom, left, right = 0, 0, 0, 0
-
                     if (j + 1) >= self._num_y_points:
                         top = self._potentials[i, j - 1]
                     else:
                         top = self._potentials[i, j + 1]
-
                     if (i + 1) >= self._num_x_points:
                         right = self._potentials[i - 1, j]
                     else:
                         right = self._potentials[i + 1, j]
-
                     if (i - 1) < 0:
                         left = 0
                     else:
                         left = self._potentials[i - 1, j]
-
                     if (j - 1) < 0:
                         bottom = 0
                     else:
                         bottom = self._potentials[i, j - 1]
 
+                    # Perform update of residual
                     residual[i, j] = top + bottom + left + right - 4 * self._potentials[i, j]
 
 
@@ -276,29 +270,14 @@ class FiniteDifferencePotentialSolver(object):
             # Whether or not the residual has become small enough to stop the process
             condition = not(np.all(residual <= max_residual))
 
-        return itr
-
-    # Generic solve method creating an abstration for the other solver methods
-    def solve(self, max_residual, omega=None):
-        """
-        :type max_residual: float
-        :tpe omega: float
-        :rtype: num_itr
-        """
-
-        if (self._fd_method.value == FD_METHODS.SOR.value):
-            return self.solve_sor(max_residual)
-        elif (self._fd_method.value == FD_METHODS.Jacobi.value):
-            return self.solve_jacobi(max_residual)
-        else:
-            print("No valid solution method provided")
-            return 0
-
+        return (itr, self._potentials)
 
 if __name__ == "__main__":
-    fndps = FiniteDifferencePotentialSolver(h=0.005, method=FD_METHODS.SOR)
-    num_itr = fndps.solve(max_residual=1e-5, omega=1.5)
-    potentials = fndps.getPotentials()
+    fndps = FiniteDifferencePotentialSolver(h=0.02)
+    num_itr, potentials = fndps.solve_sor(max_residual=1e-5, omega=1.5)
     p = potentials[fndps.map_coordinates_to_indices((0.06, 0.04))]
     print("num_itr:", num_itr)
     print("(0.06, 0.04):", p)
+
+
+# TODO: Map unequal node scalings in a matrix to create normalized doubly stochastic

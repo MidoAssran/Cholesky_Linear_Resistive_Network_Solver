@@ -15,12 +15,13 @@ DEBUG = True
 
 class FiniteDifferencePotentialSolver(object):
 
-    #-----Instance Variables-------#
-    # _h -> The inter-mesh node spacing
-    # _num_x_points -> The number of mesh points in the x direction
-    # _num_y_points -> The number of mesh points in the y direction
-    # _potentials -> The electric potential at every point in the mesh
-
+    """
+    :-------Instance Variables-------:
+    :type _h: float -> The inter-mesh node spacing
+    :type _num_x_points: float -> The number of mesh points in the x direction
+    :type _num_y_points: float -> The number of mesh points in the y direction
+    :type _potentials: np.array([float]) -> The electric potential at every point in the mesh
+    """
 
     def __init__(self, h):
         """
@@ -28,17 +29,48 @@ class FiniteDifferencePotentialSolver(object):
         :rtype: void
         """
 
+        if DEBUG:
+            np.core.arrayprint._line_width = 200
+
         self._h = h
 
         x_midpoint = INNER_COORDINATES[0] + INNER_HALF_DIMENSIONS[0]
         y_midpoint = INNER_COORDINATES[1] + INNER_HALF_DIMENSIONS[1]
-
         self._num_x_points = int(x_midpoint / h + 1)
         self._num_y_points = int(y_midpoint / h + 1)
 
+        self._right_spacing_matrix = np.empty((self._num_x_points - 1, self._num_y_points))
+        self._left_spacing_matrix = np.empty((self._num_x_points - 1, self._num_y_points))
+        self._bottom_spacing_matrix = np.empty((self._num_x_points, self._num_y_points - 1))
+        self._top_spacing_matrix = np.empty((self._num_x_points, self._num_y_points - 1))
+
+        # Create equal node spacings
+        self._right_spacing_matrix[:] = 1
+        self._left_spacing_matrix[:] = 1
+        self._top_spacing_matrix[:] = 1
+        self._bottom_spacing_matrix[:] = 1
+
+        # Create unequal node spacings
+        normalizer_x = self._num_x_points - 0
+        normalizer_y = self._num_y_points - 3.5
+        self.create_unequal_node_spacing_matrix_row(self._right_spacing_matrix, x_midpoint, normalizer_x)
+        self.create_unequal_node_spacing_matrix_row(self._left_spacing_matrix, x_midpoint, normalizer_x)
+        self.create_unequal_node_spacing_matrix_column(self._bottom_spacing_matrix, y_midpoint, normalizer_y)
+        self.create_unequal_node_spacing_matrix_column(self._top_spacing_matrix, y_midpoint, normalizer_y)
+
+        # Create boundaries
+        z = np.empty((1, self._num_y_points))
+        z[:] = self._right_spacing_matrix[-1, 0]
+        self._right_spacing_matrix = np.append(self._right_spacing_matrix, z, axis=0)
+        self._left_spacing_matrix = np.append(z, self._left_spacing_matrix, axis=0)
+        z = np.empty((self._num_x_points, 1))
+        z[:] = self._top_spacing_matrix[0, -1]
+        self._top_spacing_matrix = np.append(self._top_spacing_matrix, z, axis=1)
+        self._bottom_spacing_matrix = np.append(z, self._bottom_spacing_matrix, axis=1)
+
+        # Initialize potentials matrix according to the boundary coniditions
         potentials = np.empty((self._num_x_points, self._num_y_points))
         potentials[:] = 0
-
         for i in range(self._num_x_points):
             for j in range(self._num_y_points):
                 coordinates = self.map_indices_to_coordinates((i,j))
@@ -48,13 +80,42 @@ class FiniteDifferencePotentialSolver(object):
         self._potentials = potentials
 
         if DEBUG:
-            np.core.arrayprint._line_width = 200
+            print(self._right_spacing_matrix)
+            # for i in range(self._num_x_points):
+            #     for j in range(self._num_y_points):
+            #         print(self.map_indices_to_coordinates((i,j)))
 
 
-    # Getter
-    def getPotentials(self):
-        return self._potentials
+    def create_unequal_node_spacing_matrix_column(self, fill_in_matrix, edge_length, normalizer):
+        """
+        :type fill_in_matrix: np.array([float])
+        :rtype: void
+        """
+        for i in range(fill_in_matrix.shape[1]):
+            column = fill_in_matrix[:, i]
+            normalizer = normalizer
+            sum_sub_column = (((len(column) * (len(column) + 1)) / 2) - len(column)) / normalizer
 
+            column[:] = np.array([i / normalizer for i in range(len(column), 0, -1)])
+
+            # Rebalance the first element in the row to make sure node spacing still spans the physical size of the structure
+            column[0] = (edge_length - sum_sub_column * self._h) / self._h
+
+
+    def create_unequal_node_spacing_matrix_row(self, fill_in_matrix, edge_length, normalizer):
+        """
+        :type fill_in_matrix: np.array([float])
+        :rtype: void
+        """
+        for i, row in enumerate(fill_in_matrix):
+            normalizer = normalizer
+            sum_sub_row = (((len(row) * (len(row) + 1)) / 2) - len(row)) / normalizer
+
+            # Create smaller mesh spacing towards the end of the row, and larger towards the beginning
+            row[:] = np.array([i / normalizer for i in range(len(row), 0, -1)])
+
+            # Rebalance the first element in the row to make sure node spacing still spans the physical size of the structure
+            row[0] = (edge_length - sum_sub_row * self._h) / self._h
 
     # Helper function that converts node indices to physical locations in the mesh
     def map_indices_to_coordinates(self, indices):
@@ -62,7 +123,17 @@ class FiniteDifferencePotentialSolver(object):
         :type indices: (int, int)
         :rtype: (float, float)
         """
-        return (indices[0] * self._h, indices[1] * self._h)
+        x, y = 0, 0
+        for i in range(indices[0]):
+            x += self._right_spacing_matrix[0, i]
+        x *= self._h
+
+        for i in range(indices[1]):
+            y += self._top_spacing_matrix[i, 0]
+        y *= self._h
+
+        coordinates = (x , y)
+        return coordinates
 
 
     # Helper function that converts node locations in the mesh to indices
@@ -71,7 +142,19 @@ class FiniteDifferencePotentialSolver(object):
         :type coordinates: (float, float)
         :rtype: (int, int)
         """
-        return (int(coordinates[0] / self._h), int(coordinates[1] / self._h))
+        i, j = 0, 0
+        x, y = 0, 0
+
+        while x < coordinates[0]:
+            x += self._right_spacing_matrix[i, 0] * self._h
+            i += 1
+
+        while y < coordinates[1]:
+            y += self._top_spacing_matrix[0, j] * self._h
+            j += 1
+
+        indices = (i, j)
+        return indices
 
 
     # Solve for potentials using Successive Over Relaxation
@@ -225,8 +308,20 @@ class FiniteDifferencePotentialSolver(object):
                     else:
                         bottom = self._potentials[i, j - 1]
 
+                    # Determine the constants induced by unequal node spacings(will cancel out if spacings are equal)
+                    c_top, c_bottom, c_left, c_right, c_center = 0, 0, 0, 0, 0
+                    sp_t = self._top_spacing_matrix[i, j]
+                    sp_b = self._bottom_spacing_matrix[i, j]
+                    sp_l = self._left_spacing_matrix[i, j]
+                    sp_r = self._right_spacing_matrix[i, j]
+                    c_center = 1 + (sp_l / sp_r) + ((sp_l * (sp_l + sp_r)) / (sp_t * (sp_t + sp_b))) + ((sp_l * (sp_l + sp_r)) / (sp_b * (sp_t + sp_b)))
+                    c_left = 1
+                    c_right = (sp_l / sp_r)
+                    c_bottom =  ((sp_l * (sp_l + sp_r)) / (sp_t * (sp_t + sp_b)))
+                    c_top = ((sp_l * (sp_l + sp_r)) / (sp_b * (sp_t + sp_b)))
+
                     # Perform update of potentials
-                    temp[i, j] = 0.25 * (top + bottom + left + right)
+                    temp[i, j] = (1.0 / c_center) * (c_top * top + c_bottom * bottom + c_left * left + c_right * right)
 
             # Only update global potentials here to ensure that the updates are performed using values at the same iteration
             self._potentials[:] = temp[:]
@@ -260,8 +355,22 @@ class FiniteDifferencePotentialSolver(object):
                     else:
                         bottom = self._potentials[i, j - 1]
 
+                    # Determine the constants induced by unequal node spacings(will cancel out if spacings are equal)
+                    c_top, c_bottom, c_left, c_right, c_center = 0, 0, 0, 0, 0
+                    sp_t = self._top_spacing_matrix[i, j]
+                    sp_b = self._bottom_spacing_matrix[i, j]
+                    sp_l = self._left_spacing_matrix[i, j]
+                    sp_r = self._right_spacing_matrix[i, j]
+                    c_center = 1 + (sp_l / sp_r) + ((sp_l * (sp_l + sp_r)) / (sp_t * (sp_t + sp_b))) + ((sp_l * (sp_l + sp_r)) / (sp_b * (sp_t + sp_b)))
+                    c_left = 1
+                    c_right = (sp_l / sp_r)
+                    c_bottom =  ((sp_l * (sp_l + sp_r)) / (sp_t * (sp_t + sp_b)))
+                    c_top = ((sp_l * (sp_l + sp_r)) / (sp_b * (sp_t + sp_b)))
+
+
                     # Perform update of residual
-                    residual[i, j] = top + bottom + left + right - 4 * self._potentials[i, j]
+                    residual[i, j] = c_top * top + c_bottom * bottom + c_left * left + c_right * right - c_center * self._potentials[i, j]
+                    # residual[i, j] = top + bottom + left + right - 4 * self._potentials[i, j]
 
 
             if DEBUG:
@@ -273,11 +382,11 @@ class FiniteDifferencePotentialSolver(object):
         return (itr, self._potentials)
 
 if __name__ == "__main__":
-    fndps = FiniteDifferencePotentialSolver(h=0.02)
-    num_itr, potentials = fndps.solve_sor(max_residual=1e-5, omega=1.5)
-    p = potentials[fndps.map_coordinates_to_indices((0.06, 0.04))]
+    fndps = FiniteDifferencePotentialSolver(h=0.01)
+    num_itr, potentials = fndps.solve_jacobi(max_residual=1e-1)
+    # num_itr, potentials = fndps.solve_sor(max_residual=1e-5, omega=1.5)
+    indices = fndps.map_coordinates_to_indices((0.06, 0.04))
+    p = potentials[indices]
     print("num_itr:", num_itr)
-    print("(0.06, 0.04):", p)
-
-
-# TODO: Map unequal node scalings in a matrix to create normalized doubly stochastic
+    print(fndps.map_indices_to_coordinates(indices), p)
+    print("potentials:\n", potentials)

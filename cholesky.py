@@ -49,7 +49,7 @@ class CholeskyDecomposition(object):
                 A[i,j] /= A[j,j]        # Compute the i,j entry of chol(A) and overwritte A
                 b[i] -= A[i,j] * b[j]   # Look ahead modification of b
 
-                if A[i,j] == 0:
+                if A[i,j] == 0:         # Optimization for matrix sparsity
                     continue
 
                 # Look ahead moidification of A

@@ -3,8 +3,9 @@
 # ----------------------------------------- #
 # Author: Mido Assran
 # Date: 30, September, 2016
-# Description: CholeskyDecomposition solves the linear system of equations: Ax = b by decomposing matrix A
-# using Cholesky factorization and using forward and backward substitution to determine x. Matrix A must
+# Description: CholeskyDecomposition solves the linear system of equations:
+# Ax = b by decomposing matrix A using Cholesky factorization and using
+# forward and backward substitution to determine x. Matrix A must
 # be symmetric, real, and positive definite.
 
 import random
@@ -30,9 +31,10 @@ class CholeskyDecomposition(object):
         n = A.shape[1]
 
 
-        # ----------------------------------------------------------------------------------------------------------- #
-        # ----------- Simultaneous cholesky factorization of A and solving of the lower traingular system ----------- #
-        # ----------------------------------------------------------------------------------------------------------- #
+        # -------------------------------------------------------------- #
+        # Simultaneous cholesky factorization of A and chol-elimination
+        # -------------------------------------------------------------- #
+
         # Cholesky factorization & forward substitution
         for j in range(n):
 
@@ -40,28 +42,28 @@ class CholeskyDecomposition(object):
             if A[j,j] <= 0:
                 return None
 
-            A[j,j] = A[j,j] ** 0.5      # Compute the j,j entry of chol(A) and overwrite A
-            b[j] /= A[j,j]              # Compute the j entry of the solution vector being solved for and overwrite b
+            A[j,j] = A[j,j] ** 0.5    # Compute the j,j entry of chol(A)
+            b[j] /= A[j,j]            # Compute the j entry of forward-sub
 
 
             for i in range(j+1, n):
 
-                A[i,j] /= A[j,j]        # Compute the i,j entry of chol(A) and overwritte A
-                b[i] -= A[i,j] * b[j]   # Look ahead modification of b
+                A[i,j] /= A[j,j]      # Compute the i,j entry of chol(A)
+                b[i] -= A[i,j] * b[j] # Look ahead modification of b
 
-                if A[i,j] == 0:         # Optimization for matrix sparsity
+                if A[i,j] == 0:       # Optimization for matrix sparsity
                     continue
 
                 # Look ahead moidification of A
                 for k in range(j+1, i+1):
                     A[i,k] -= A[i,j] * A[k,j]
-        # ----------------------------------------------------------------------------------------------------------- #
+        # -------------------------------------------------------------- #
 
 
-        # ----------------------------------------------------------------------------------------------------------- #
-        # ---------------------------------- Now solve the upper traingular system ---------------------------------- #
-        # ----------------------------------------------------------------------------------------------------------- #
-        # Transpose(A) is the upper-tiangular matrix of the overwritten cholesky factorization
+        # -------------------------------------------------------------- #
+        # Now solve the upper traingular system
+        # -------------------------------------------------------------- #
+        # Transpose(A) is the upper-tiangular matrix of chol(A)
         A[:] = matrix_transpose(A)
 
         # Backward substitution
@@ -70,7 +72,7 @@ class CholeskyDecomposition(object):
 
             for i in range(j):
                 b[i] -= A[i,j] * b[j]
-        # ----------------------------------------------------------------------------------------------------------- #
+        # -------------------------------------------------------------- #
 
         elapsed_time = timeit.default_timer() - start_time
         print("Execution time: ", elapsed_time, end="\n\n")
@@ -85,9 +87,9 @@ if __name__ == "__main__":
     seed = 5
 
     print("\n", end="\n")
-    print("# ------------------------------------- TEST -------------------------------------- #", end="\n")
-    print("# ----------------------------- Cholesky Decomposition ---------------------------- #", end="\n")
-    print("# --------------------------------------------------------------------------------- #", end ="\n\n")
+    print("# --------------- TEST --------------- #", end="\n")
+    print("# ------ Cholesky Decomposition ------ #", end="\n")
+    print("# ------------------------------------ #", end ="\n\n")
     # Create a symmetric, real, positive definite matrix.
     A = generate_positive_semidef(order=order, seed=seed)
     x = np.random.randn(order)
@@ -99,4 +101,4 @@ if __name__ == "__main__":
     v = chol_d.solve(A=A, b=b)
     print("chol_d.solve(A, b):\n", v, end="\n\n")
     print("2-norm error:\n", np.linalg.norm(v - x), end="\n\n")
-    print("# --------------------------------------------------------------------------------- #", end ="\n\n")
+    print("# ------------------------------------ #", end ="\n\n")

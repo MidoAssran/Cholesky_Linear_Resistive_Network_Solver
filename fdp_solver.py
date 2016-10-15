@@ -211,8 +211,20 @@ class FiniteDifferencePotentialSolver(object):
                     else:
                         bottom = self._potentials[i, j - 1]
 
+                    # Determine the constants induced by unequal node spacings(will cancel out if spacings are equal)
+                    c_top, c_bottom, c_left, c_right, c_center = 0, 0, 0, 0, 0
+                    sp_t = self._top_spacing_matrix[i, j]
+                    sp_b = self._bottom_spacing_matrix[i, j]
+                    sp_l = self._left_spacing_matrix[i, j]
+                    sp_r = self._right_spacing_matrix[i, j]
+                    c_center = 1 + (sp_l / sp_r) + ((sp_l * (sp_l + sp_r)) / (sp_t * (sp_t + sp_b))) + ((sp_l * (sp_l + sp_r)) / (sp_b * (sp_t + sp_b)))
+                    c_left = 1
+                    c_right = (sp_l / sp_r)
+                    c_bottom =  ((sp_l * (sp_l + sp_r)) / (sp_t * (sp_t + sp_b)))
+                    c_top = ((sp_l * (sp_l + sp_r)) / (sp_b * (sp_t + sp_b)))
+
                     # Perform update of potential
-                    gauss_seidl = 0.25 * (top + bottom + left + right)
+                    gauss_seidl = (1.0 / c_center) * (c_top * top + c_bottom * bottom + c_left * left + c_right * right)
                     self._potentials[i, j] =  (1 - omega) * self._potentials[i, j] + omega * gauss_seidl
 
 
@@ -245,8 +257,20 @@ class FiniteDifferencePotentialSolver(object):
                     else:
                         bottom = self._potentials[i, j - 1]
 
+                    # Determine the constants induced by unequal node spacings(will cancel out if spacings are equal)
+                    c_top, c_bottom, c_left, c_right, c_center = 0, 0, 0, 0, 0
+                    sp_t = self._top_spacing_matrix[i, j]
+                    sp_b = self._bottom_spacing_matrix[i, j]
+                    sp_l = self._left_spacing_matrix[i, j]
+                    sp_r = self._right_spacing_matrix[i, j]
+                    c_center = 1 + (sp_l / sp_r) + ((sp_l * (sp_l + sp_r)) / (sp_t * (sp_t + sp_b))) + ((sp_l * (sp_l + sp_r)) / (sp_b * (sp_t + sp_b)))
+                    c_left = 1
+                    c_right = (sp_l / sp_r)
+                    c_bottom =  ((sp_l * (sp_l + sp_r)) / (sp_t * (sp_t + sp_b)))
+                    c_top = ((sp_l * (sp_l + sp_r)) / (sp_b * (sp_t + sp_b)))
+
                     # Perform update of residual
-                    residual[i, j] = top + bottom + left + right - 4 * self._potentials[i, j]
+                    residual[i, j] = c_top * top + c_bottom * bottom + c_left * left + c_right * right - c_center * self._potentials[i, j]
 
 
             if DEBUG:
@@ -370,7 +394,6 @@ class FiniteDifferencePotentialSolver(object):
 
                     # Perform update of residual
                     residual[i, j] = c_top * top + c_bottom * bottom + c_left * left + c_right * right - c_center * self._potentials[i, j]
-                    # residual[i, j] = top + bottom + left + right - 4 * self._potentials[i, j]
 
 
             if DEBUG:
@@ -383,8 +406,8 @@ class FiniteDifferencePotentialSolver(object):
 
 if __name__ == "__main__":
     fndps = FiniteDifferencePotentialSolver(h=0.01)
-    num_itr, potentials = fndps.solve_jacobi(max_residual=1e-1)
-    # num_itr, potentials = fndps.solve_sor(max_residual=1e-5, omega=1.5)
+    # num_itr, potentials = fndps.solve_jacobi(max_residual=1e-1)
+    num_itr, potentials = fndps.solve_sor(max_residual=1e-5, omega=1.5)
     indices = fndps.map_coordinates_to_indices((0.06, 0.04))
     p = potentials[indices]
     print("num_itr:", num_itr)

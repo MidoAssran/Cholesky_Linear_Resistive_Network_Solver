@@ -50,13 +50,13 @@ class FiniteDifferencePotentialSolver(object):
         self._top_spacing_matrix[:] = 1
         self._bottom_spacing_matrix[:] = 1
 
-        # Create unequal node spacings
-        normalizer_x = self._num_x_points - 0
-        normalizer_y = self._num_y_points - 3.5
-        self.create_unequal_node_spacing_matrix_row(self._right_spacing_matrix, x_midpoint, normalizer_x)
-        self.create_unequal_node_spacing_matrix_row(self._left_spacing_matrix, x_midpoint, normalizer_x)
-        self.create_unequal_node_spacing_matrix_column(self._bottom_spacing_matrix, y_midpoint, normalizer_y)
-        self.create_unequal_node_spacing_matrix_column(self._top_spacing_matrix, y_midpoint, normalizer_y)
+        # # Create unequal row spacings
+        # normalizer_x = self._num_x_points - 0; normalizer_y = self._num_y_points - 3.5
+        # self.create_unequal_node_spacing_matrix_row(self._right_spacing_matrix, x_midpoint, normalizer_x)
+        # self._left_spacing_matrix[:] = self._right_spacing_matrix[:]
+        # # Create unequal column spacings
+        # self.create_unequal_node_spacing_matrix_column(self._bottom_spacing_matrix, y_midpoint, normalizer_y)
+        # self._top_spacing_matrix[:] = self._bottom_spacing_matrix[:]
 
         # Create boundaries
         z = np.empty((1, self._num_y_points))
@@ -406,8 +406,8 @@ class FiniteDifferencePotentialSolver(object):
 
 if __name__ == "__main__":
     fndps = FiniteDifferencePotentialSolver(h=0.01)
-    # num_itr, potentials = fndps.solve_jacobi(max_residual=1e-1)
-    num_itr, potentials = fndps.solve_sor(max_residual=1e-5, omega=1.5)
+    num_itr, potentials = fndps.solve_jacobi(max_residual=1e-10)
+    # num_itr, potentials = fndps.solve_sor(max_residual=1e-5, omega=1.5)
     indices = fndps.map_coordinates_to_indices((0.06, 0.04))
     p = potentials[indices]
     print("num_itr:", num_itr)

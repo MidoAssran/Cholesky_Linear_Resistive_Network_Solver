@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  17 OCT 2016 00:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  17 OCT 2016 10:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -542,7 +542,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: assets/t_vs_n_unopt.png Graphic file (type png)
 
 <use assets/t_vs_n_unopt.png>
-Package pdftex.def Info: assets/t_vs_n_unopt.png used on input line 300.
+Package pdftex.def Info: assets/t_vs_n_unopt.png used on input line 298.
 (pdftex.def)             Requested size: 365.50655pt x 237.76956pt.
 
 
@@ -552,14 +552,119 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 LaTeX Warning: Text page 10 contains only floats.
 
-[10 <./assets/t_vs_n_unopt.png (PNG copy)>] [11]
+[10 <./assets/t_vs_n_unopt.png (PNG copy)>]
+<assets/t_vs_n_opt.png, id=69, 1160.335pt x 754.82pt>
+File: assets/t_vs_n_opt.png Graphic file (type png)
+
+<use assets/t_vs_n_opt.png>
+Package pdftex.def Info: assets/t_vs_n_opt.png used on input line 329.
+(pdftex.def)             Requested size: 344.005pt x 223.77567pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<assets/n_vs_r_unopt.png, id=70, 1999.47pt x 1136.245pt>
+File: assets/n_vs_r_unopt.png Graphic file (type png)
+
+<use assets/n_vs_r_unopt.png>
+Package pdftex.def Info: assets/n_vs_r_unopt.png used on input line 338.
+(pdftex.def)             Requested size: 344.005pt x 195.48235pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<assets/fit_r.png, id=71, 580.1675pt x 377.41pt>
+File: assets/fit_r.png Graphic file (type png)
+ <use assets/fit_r.png>
+Package pdftex.def Info: assets/fit_r.png used on input line 345.
+(pdftex.def)             Requested size: 344.005pt x 223.78142pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[11] [12 <./assets/t_vs_n_opt.png (PNG copy)> <./assets/n_vs_r_unopt.png (PNG c
+opy)>] <assets/test_fdp_solver.png, id=78, 1135.24126pt x 333.245pt>
+File: assets/test_fdp_solver.png Graphic file (type png)
+
+<use assets/test_fdp_solver.png>
+Package pdftex.def Info: assets/test_fdp_solver.png used on input line 358.
+(pdftex.def)             Requested size: 430.00462pt x 126.22762pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<assets/itr_vs_omega.png, id=79, 580.1675pt x 377.41pt>
+File: assets/itr_vs_omega.png Graphic file (type png)
+
+<use assets/itr_vs_omega.png>
+Package pdftex.def Info: assets/itr_vs_omega.png used on input line 385.
+(pdftex.def)             Requested size: 430.00462pt x 279.72821pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[13 <./assets/fit_r.png (PNG copy)>]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<assets/itr_v_1_o_h.png, id=84, 580.1675pt x 377.41pt>
+File: assets/itr_v_1_o_h.png Graphic file (type png)
+
+<use assets/itr_v_1_o_h.png>
+Package pdftex.def Info: assets/itr_v_1_o_h.png used on input line 406.
+(pdftex.def)             Requested size: 430.00462pt x 279.72821pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<assets/point_v_1_o_h.png, id=85, 580.1675pt x 377.41pt>
+File: assets/point_v_1_o_h.png Graphic file (type png)
+
+<use assets/point_v_1_o_h.png>
+Package pdftex.def Info: assets/point_v_1_o_h.png used on input line 412.
+(pdftex.def)             Requested size: 430.00462pt x 279.72821pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[14 <./assets/test_fdp_solver.png>]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<assets/J_itr_v_1_o_h.png, id=90, 580.1675pt x 377.41pt>
+File: assets/J_itr_v_1_o_h.png Graphic file (type png)
+
+<use assets/J_itr_v_1_o_h.png>
+Package pdftex.def Info: assets/J_itr_v_1_o_h.png used on input line 433.
+(pdftex.def)             Requested size: 430.00462pt x 279.72821pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[15 <./assets/itr_vs_omega.png (PNG copy)>]
+<assets/J_point_v_1_o_h.png, id=94, 580.1675pt x 377.41pt>
+File: assets/J_point_v_1_o_h.png Graphic file (type png)
+
+<use assets/J_point_v_1_o_h.png>
+Package pdftex.def Info: assets/J_point_v_1_o_h.png used on input line 439.
+(pdftex.def)             Requested size: 430.00462pt x 279.72821pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[16 <./assets/itr_v_1_o_h.png (PNG copy)>] [17 <./assets/point_v_1_o_h.png (PNG
+ copy)>] [18 <./assets/J_itr_v_1_o_h.png (PNG copy)>] [19 <./assets/J_point_v_1
+_o_h.png (PNG copy)>]
 (/usr/local/texlive/2014/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2014/03/04 1.5c listings language file
 )
 (../utils.py
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [12
+ [20
 
 ]
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 47.
@@ -572,73 +677,130 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [13])
-[14] (../choleski.py
+ [21])
+[22] (../choleski.py
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [15
+ [23
 
 
 ]
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 47.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 52.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <9> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 47.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 52.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [16])
-[17] (../lrn_solver.py
+ [24]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [18
+ [25])
+[26] (../lrn_solver.py
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [27
 
 
 ]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [19]
+ [28]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [20]
+ [29]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [21])
-[22] (./assran_mido.aux)
+ [30])
+[31] (../conductor_description.py) [32
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
- ) 
+] (../fdp_solver.py
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [33
+
+
+]
+Overfull \hbox (37.3754pt too wide) in paragraph at lines 55--56
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (59.57547pt too wide) in paragraph at lines 58--59
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [34]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [35]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [36]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [37]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [38]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [39]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [40]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [41]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [42]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [43]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [44])
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [45]
+[46] (./assran_mido.aux) ) 
 Here is how much of TeX's memory you used:
- 6770 strings out of 493117
- 105445 string characters out of 6135433
- 238355 words of memory out of 5000000
- 9947 multiletter control sequences out of 15000+600000
+ 6898 strings out of 493117
+ 107926 string characters out of 6135433
+ 249992 words of memory out of 5000000
+ 10060 multiletter control sequences out of 15000+600000
  12086 words of font info for 46 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 42i,9n,43p,1359b,1807s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb><
-/usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><
-/usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
-usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></us
-r/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/
-local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
-cal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local
-/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/te
-xlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texli
-ve/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
-e/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/
-2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/20
-14/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/201
-4/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb>
-Output written on assran_mido.pdf (22 pages, 2043602 bytes).
+ 42i,9n,43p,1938b,1807s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2014/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmcsc10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmmi10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmmi8.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmmi9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmr10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr7.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmr8.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
+0.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.
+pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pf
+b></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
+></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb>
+Output written on assran_mido.pdf (46 pages, 2452015 bytes).
 PDF statistics:
- 159 PDF objects out of 1000 (max. 8388607)
- 96 compressed objects within 1 object stream
+ 248 PDF objects out of 1000 (max. 8388607)
+ 150 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 61 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 106 words of extra memory for PDF output out of 10000 (max. 10000000)
 

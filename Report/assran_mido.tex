@@ -268,7 +268,7 @@ A program used to solved tor the node voltages in a linear resistive network is 
     \end{tabular}
 \end{table}
 
-\subsection*{Part b} The running time of the choleski elimination is dominated by the $O(n^3)$ flops required to carry out the choleski decomposition. Therefore, if the mesh size were to increase from N by N to (N + 1) by (N + 1), the added computational time required would be approximated by $3N^2$ flops. This is consistent with the observations presented in Table \ref{tbl:time_v_mesh}, and Figure \ref{fig:t_n_unopt}, which show the relationship between mesh size and running time.
+\subsection*{Part b} The running time of the choleski elimination is dominated by the $O(n^3)$ flops required to carry out the choleski decomposition. Therefore, since the matrix $A$ of equation (\ref{eq:linear_system}) scales with dimension $N^2$ by $N^2$, the number of flops for a mesh of size N by N is $(N^2)^3$ flops or equivalently $N^6$ flops. This is consistent with the observations presented in Table \ref{tbl:time_v_mesh}, and Figure \ref{fig:t_n_unopt}, which show the relationship between mesh size and running time.
 
 \begin{table}[h!]
     \caption{Mesh Size - Solution Time}
@@ -291,15 +291,158 @@ A program used to solved tor the node voltages in a linear resistive network is 
 	15 & 1.5176349109970033
     \end{tabular}
 \end{table}
-
 \vspace{3em}
-
 \begin{center}
 	\begin{figure}[h]
 		\caption{Choleski Elimination Timing vs Mesh Size (No Sparsity Optimization)}
 		\includegraphics[width=0.85\textwidth]{assets/t_vs_n_unopt.png}\label{fig:t_n_unopt}
 	\end{figure}
 \end{center}
+
+\subsection*{Part c} In order to take advantage of the sparse nature of the matrix $A$ in equation (\ref{eq:linear_system}), the lookahead modification in the choleski decomposition is not performed if the computed entry of the matrix $A$ is equal to zero. In addition, the banded nature of the matrix is exploited by only performing computations up to a certain column index (based on the matrix bandwidth). The half bandwidth is equal to $N + 2$. In theory, the computational time taken to solve this problem should increase with $N$ as $O(N^4)$ since the number of flops is equal to $O(b^2 n)$, where $b^2$ is the mean square of the half bandwidth; the number of flops simplifies to $O((N+2)^2 (N^2))$, which is simply $O(N^4)$. Indeed this this is consistent with the observations presented in Table \ref{tbl:time_v_mesh_opt}, and Figure \ref{fig:t_n_opt}, which show the relationship between mesh size and running time with the modified code. Figure \ref{fig:t_n_opt} actually shows the optimized algorithm and the unoptimized algorithm plotted on top of one another.
+
+\begin{table}[h!]
+    \caption{Mesh Size - Solution Time (With Banding \& Sparsity Optimization)}
+    \label{tbl:time_v_mesh_opt}
+    \begin{tabular}{ c| l}
+    	\textbf{N} & \textbf{$Time (seconds)$}\\ \hline \\
+	2 & 0.0001465399982407689\\
+	3 & 0.00036833900958299637\\
+	4 & 0.0007581170066259801\\
+	5 & 0.0013425120268948376\\
+	6 & 0.0024208099930547178\\
+	7 & 0.004157565999776125\\
+	8 & 0.006417336990125477\\
+	9 & 0.009185826987959445\\
+	10 & 0.013197112013585865\\
+	11 & 0.018369574972894043\\
+	12 & 0.03381888900185004\\
+	13 & 0.04017931898124516\\
+	14 & 0.0488723770249635\\
+	15 & 0.05613993701990694
+    \end{tabular}
+\end{table}
+\vspace{3em}
+\begin{center}
+	\begin{figure}[h]
+		\caption{Choleski Elimination Timing vs Mesh Size (With Banding \& Sparsity Optimization)}
+		\includegraphics[width=0.8\textwidth]{assets/t_vs_n_opt.png}\label{fig:t_n_opt}
+	\end{figure}
+\end{center}
+
+\subsection*{Part d} The resistance versus mesh size is shown in Figure \ref{fig:r_n_opt}. It appears to be that the log natural function is a good approximation to the observations, Figure \ref{fig:fit_r} shows just how well the log natural function, when shifted up to the same base point, hugs the observed measurements. 
+
+\begin{center}
+	\begin{figure}[h]
+		\caption{Resistance vs Mesh Size}
+		\includegraphics[width=0.8\textwidth]{assets/n_vs_r_unopt.png}\label{fig:r_n_opt}
+	\end{figure}
+\end{center}
+
+\begin{center}
+	\begin{figure}[h]
+		\caption{Curve Fitting of Resistance vs Mesh Size}
+		\includegraphics[width=0.8\textwidth]{assets/fit_r.png}\label{fig:fit_r}
+	\end{figure}
+\end{center}
+\pagebreak
+
+\section*{Question 3}
+
+\subsection*{Part a}
+A program used to find the potentials at the nodes of a regular mesh in the air between conductors by the method of finite differences is provided in \textbf{Listing \ref{lstng:fdp_solver}}. The class \textit{FiniteDifferencePotentialSolver()} is instantiated with a floating point value, $h$ used to denote inter-mesh spacing in a uniform fashion. The initializer creates the potentials matrix, as well as four other matrices describing the relative node spacings at every single point in the mesh. The values in these matrices scale the standard node spacing $h$, therefore if these spacings matrices are initialized to $1$, then all the nodes will have the standard node spacing $h$. The \textit{solve\_sor(max\_residual, omega)} method solves for the potentials at every node in the mesh using the five point difference method, and the successive over relaxation iterative method. The program terminates when the residual drops to an acceptable level, namely below the passed in \textit{max\_residual} parameter. It should also be noted that the description of the physical problem is included in \textbf{Listing \ref{lstng:conductor_description}}, this information is used by the \textit{FiniteDifferencePotentialSolver()} class to determine the appropriate boundary conditions for specific indices in the mesh. It is also important to note that the program actually leverages all the major axes of symmetry in the given problem: one translational and two planar. That is the program only uses the resources required to solve for one corner of the cross-section of the material, applying both Dirichlet and Neumann boundary conditions appropriately. Figure \ref{fig:fdp_solver} shows the console output solution for one corner of the structure. The matrix of values shows the potentials at different points in space relative to the conductor at the centre, and the grounded outer plan.
+
+\begin{center}
+	\begin{figure}[h]
+		\caption{Console Output of Finite Difference Potential Solver (h=0.01, $\omega$=1.5)}
+		\includegraphics[width=\textwidth]{assets/test_fdp_solver.png}\label{fig:fdp_solver}
+	\end{figure}
+\end{center}
+
+\subsection*{Part b}
+A plot of the number of iterations vs omega for h=0.02 is shown in Figure \ref{fig:itr_vs_omega}. In addition the results are tabulated in Table \ref{tbl:fdm_mesh_1}.
+
+\begin{table}[h!]
+    \caption{Finite Difference Mesh with h=0.02}
+    \label{tbl:fdm_mesh_1}
+    \begin{tabular}{ c | c | c}
+    	\textbf{omega} & \textbf{Iterations} & \textbf{(0.06, 0.04)}\\ \hline \\
+	1.0 & 45 & 40.5264910956\\
+	1.1 & 36 & 40.5264943747\\
+	1.2 & 27 & 40.526494893\\
+	1.3 & 17 & 40.5265022454\\
+	1.4 & 20 & 40.5265016154\\
+	1.5 & 26 & 40.5265040922\\
+	1.6 & 34 & 40.5265046461\\
+	1.7 & 47 & 40.5264989369\\
+	1.8 & 75 & 40.5265052427\\
+	1.9 & 159 & 40.5265027188
+    \end{tabular}
+\end{table}
+\begin{center}
+	\begin{figure}[h]
+		\caption{Number of iterations vs $\omega$ (h=0.02)}
+		\includegraphics[width=\textwidth]{assets/itr_vs_omega.png}\label{fig:itr_vs_omega}
+	\end{figure}
+\end{center}
+
+\subsection*{Part c}
+The values of the potential at the point (0.06, 0.04) versus 1/h are shown in Table \ref{tbl:fdm_mesh_2} and Figure \ref{fig:point_vs_1_o_h}. The number of iterations plotted versus 1/h are also shown in Table \ref{tbl:fdm_mesh_2} and Figure \ref{fig:itr_vs_1_o_h}. It is anticipated that the potential at (0.06, 0.04) is actually equal to $38.5 V$ based on the asymptotic behaviour of Figure \ref{fig:point_vs_1_o_h}. It is in fact interesting to note the asymptotic behaviour of the potential as we decrease the mesh spacing, and consequently increase the number of nodes. It is also interesting to note that faster-than-linear increase in the number of iterations versus 1 / h. This actually indicates that the number of iterations scales proportionally to the number of mesh points used.
+
+\begin{table}[h!]
+    \caption{Finite Difference Mesh with $\omega =1.3$}
+    \label{tbl:fdm_mesh_2}
+    \begin{tabular}{ c | c | c}
+    	\textbf{h} & \textbf{Iterations} & \textbf{(0.06, 0.04)}\\ \hline \\
+	0.02 & 17 & 40.5265022454\\
+	0.01 & 18 & 39.2382703774\\
+	0.005 & 328 & 38.7881974828\\
+	0.0025 & 1171 & 38.6172698335
+    \end{tabular}
+\end{table}
+\begin{center}
+	\begin{figure}[h]
+		\caption{Number of iterations vs $1 / h$ ($\omega$ = 1.3)}
+		\includegraphics[width=\textwidth]{assets/itr_v_1_o_h.png}\label{fig:itr_vs_1_o_h}
+	\end{figure}
+\end{center}
+\begin{center}
+	\begin{figure}[h]
+		\caption{(0.06,0.04) vs $1 / h$ ($\omega$ = 1.3)}
+		\includegraphics[width=\textwidth]{assets/point_v_1_o_h.png}\label{fig:point_vs_1_o_h}
+	\end{figure}
+\end{center}
+
+\subsection*{Part d}
+The values of the potential at the point (0.06, 0.04) versus 1/h are shown in Table \ref{tbl:fdm_mesh_3} and Figure \ref{fig:J_point_vs_1_o_h} for the Jacobi method. The number of iterations plotted versus 1/h are also shown in Table \ref{tbl:fdm_mesh_3} and Figure \ref{fig:J_itr_vs_1_o_h}. It is anticipated that the potential at (0.06, 0.04) is actually equal to $38.5 V$ based on the asymptotic behaviour of Figure \ref{fig:J_point_vs_1_o_h}. It is in fact interesting to note the asymptotic behaviour of the potential as we decrease the mesh spacing, and consequently increase the number of nodes. It is also interesting to note that faster-than-linear increase in the number of iterations versus 1 / h. This actually indicates that the number of iterations scales proportionally to the number of mesh points used. The properties of the Jacobi plots are identical to those of the SOR method with the exception that the Jacobi method actually underperforms the SOR method in terms of the magnitude of iterations required to achieve an acceptable residual.
+
+\begin{table}[h!]
+    \caption{Jacobi Method Finite Difference Mesh with $\omega =1.3$}
+    \label{tbl:fdm_mesh_3}
+    \begin{tabular}{ c | c | c}
+    	\textbf{h} & \textbf{Iterations} & \textbf{(0.06, 0.04)}\\ \hline \\
+	0.02 & 88 & 40.5264917649\\
+	0.01 & 337 & 39.2382738646\\
+	0.005 & 1226 &138.7882251067\\
+	0.0025 & 4365 & 38.6173665171
+    \end{tabular}
+\end{table}
+\begin{center}
+	\begin{figure}[h]
+		\caption{Jacobi Number of iterations vs $1 / h$}
+		\includegraphics[width=\textwidth]{assets/J_itr_v_1_o_h.png}\label{fig:J_itr_vs_1_o_h}
+	\end{figure}
+\end{center}
+\begin{center}
+	\begin{figure}[h]
+		\caption{Jacobi (0.06,0.04) vs $1 / h$}
+		\includegraphics[width=\textwidth]{assets/J_point_v_1_o_h.png}\label{fig:J_point_vs_1_o_h}
+	\end{figure}
+\end{center}
+
+
+\subsection*{Part e}
+The uneven node spacing is accomplished by blah in listing blah in lines blah to blah. Using the derivation blah, one is able to accomplish such blah. THe optimal results are blah.
 
 \begin{landscape}
 	\lstinputlisting[language=Python, label=lstng:utils, frame=single, caption=utils.py]{../utils.py}
@@ -309,6 +452,12 @@ A program used to solved tor the node voltages in a linear resistive network is 
 \end{landscape}
 \begin{landscape}
 	\lstinputlisting[language=Python, label=lstng:lrn_solver, frame=single, caption=lrn\_solver.py]{../lrn_solver.py}
+\end{landscape}
+\begin{landscape}
+	\lstinputlisting[language=Python, label=lstng:conductor_description, frame=single, caption=conductor\_description.py]{../conductor_description.py}
+\end{landscape}
+\begin{landscape}
+	\lstinputlisting[language=Python, label=lstng:fdp_solver, frame=single, caption=fdp\_solver.py]{../fdp_solver.py}
 \end{landscape}
 \end{document}  
 

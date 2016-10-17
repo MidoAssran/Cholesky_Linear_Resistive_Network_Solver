@@ -21,14 +21,19 @@ class CholeskiDecomposition(object):
         if DEBUG:
             np.core.arrayprint._line_width = 200
 
-    def solve(self, A, b):
+    def solve(self, A, b, band=None):
         """
         :type A: np.array([float])
         :type b: np.array([float])
+        :type band: int
         :rtype: np.array([float])
         """
 
         start_time = timeit.default_timer()
+
+        # If the matrix, A, is banded, leverage that!
+        if band is not None:
+            self._band = band
 
         # If the matrix, A, is not square, exit
         if A.shape[0] != A.shape[1]:
@@ -50,8 +55,11 @@ class CholeskiDecomposition(object):
             A[j,j] = A[j,j] ** 0.5    # Compute the j,j entry of chol(A)
             b[j] /= A[j,j]            # Compute the j entry of forward-sub
 
+            for i in range(j+1, n-1):
 
-            for i in range(j+1, n):
+                if i == self._band:   # Banded matrix optimization
+                    self._band += 1
+                    break
 
                 A[i,j] /= A[j,j]      # Compute the i,j entry of chol(A)
                 b[i] -= A[i,j] * b[j] # Look ahead modification of b
@@ -62,6 +70,14 @@ class CholeskiDecomposition(object):
                 # Look ahead moidification of A
                 for k in range(j+1, i+1):
                     A[i,k] -= A[i,j] * A[k,j]
+
+            # Perform computation for the test source
+            if (j != n-1):
+                A[n-1,j] /= A[j,j]        # Compute source entry of chol(A)
+                b[n-1] -= A[n-1,j] * b[j] # Look ahead modification of b
+                # Look ahead moidification of A
+                for k in range(j+1, n):
+                    A[n-1,k] -= A[n-1,j] * A[k,j]
         # -------------------------------------------------------------- #
 
 

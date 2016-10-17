@@ -60,13 +60,17 @@ class LinearResistiveNetworkSolver(object):
         self._A = A
         self._b = b
 
-    def solve(self):
+        if DEBUG:
+            temp = self._A[:] * 1e3
+            print(temp.astype(int))
+
+    def solve(self, band=None):
         """
         :rtype: numpy.array([float64])
         """
         chol_decomp = CholeskiDecomposition()
         # Choleski decomposition will overwrite A, and b
-        return chol_decomp.solve(A=self._A, b=self._b)
+        return chol_decomp.solve(A=self._A, b=self._b, band=band)
 
 
     @staticmethod
@@ -147,8 +151,6 @@ class LinearResistiveNetworkSolver(object):
             fwriter.writerow(row)
 
 
-
-
 if __name__ == "__main__":
     print("\n", end="\n")
     print("# -------------------- TEST -------------------- #", end="\n")
@@ -168,10 +170,10 @@ if __name__ == "__main__":
     print("# ------------ Finite Difference Mesh ---------- #", end="\n")
     print("# ---------------------------------------------- #", end="\n\n")
     new_fname = "data/test_save.csv"
-    N = 15
+    N = 2
     print("Mesh size:\n", N, "x", N, end="\n\n")
     LinearResistiveNetworkSolver.create_lrn_mesh_data(N=N, fname=new_fname)
     lrn = LinearResistiveNetworkSolver(new_fname)
-    voltages = lrn.solve()
+    voltages = lrn.solve(band=N+2)
     r_eq = (voltages[0] - voltages[-1])/ (1 - (voltages[0] - voltages[-1]))
     print("Resistance:\n", r_eq, "Ohms", end="\n\n")

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  15 OCT 2016 19:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  16 OCT 2016 20:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -277,27 +277,46 @@ Package caption Info: AMS or SMF document class.
 \c@ContinuedFloat=\count111
 Package caption Info: listings package is loaded.
 )
+(/usr/local/texlive/2014/texmf-dist/tex/latex/csvsimple/csvsimple.sty
+Package: csvsimple 2013/09/25 version 1.07 LaTeX CSV file processing
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
+(/usr/local/texlive/2014/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks28
+\pgfkeys@temptoks=\toks29
+
+(/usr/local/texlive/2014/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.c
+ode.tex
+\pgfkeys@tmptoks=\toks30
+))) (/usr/local/texlive/2014/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\csv@file=\read1
+\c@csvinputline=\count112
+\c@csvrow=\count113
+\c@csvcol=\count114
+)
 (./assran_mido.aux)
 \openout1 = `assran_mido.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 59.
-LaTeX Font Info:    ... okay on input line 59.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 59.
-LaTeX Font Info:    ... okay on input line 59.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 59.
-LaTeX Font Info:    ... okay on input line 59.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 59.
-LaTeX Font Info:    ... okay on input line 59.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 59.
-LaTeX Font Info:    ... okay on input line 59.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 59.
-LaTeX Font Info:    ... okay on input line 59.
-LaTeX Font Info:    Try loading font information for U+msa on input line 59.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Try loading font information for U+msa on input line 75.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 59.
+LaTeX Font Info:    Try loading font information for U+msb on input line 75.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -338,83 +357,266 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 (/usr/local/texlive/2014/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count112
+\scratchcounter=\count115
 \scratchdimen=\dimen135
 \scratchbox=\box31
-\nofMPsegments=\count113
-\nofMParguments=\count114
-\everyMPshowfont=\toks28
-\MPscratchCnt=\count115
+\nofMPsegments=\count116
+\nofMParguments=\count117
+\everyMPshowfont=\toks31
+\MPscratchCnt=\count118
 \MPscratchDim=\dimen136
-\MPnumerator=\count116
-\makeMPintoPDFobject=\count117
-\everyMPtoPDFconversion=\toks29
+\MPnumerator=\count119
+\makeMPintoPDFobject=\count120
+\everyMPtoPDFconversion=\toks32
 )
-\c@lstlisting=\count118
+\c@lstlisting=\count121
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
  [1{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+<assets/choleski_testing.png, id=15, 968.61874pt x 609.27625pt>
+File: assets/choleski_testing.png Graphic file (type png)
+
+<use assets/choleski_testing.png>
+Package pdftex.def Info: assets/choleski_testing.png used on input line 102.
+(pdftex.def)             Requested size: 430.00462pt x 270.48094pt.
+ [2 <./assets/choleski_testing.png>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [3]
+Underfull \hbox (badness 10000) in paragraph at lines 123--124
+
+ []
+
+<assets/sk_test_c1.png, id=26, 379.4175pt x 323.2075pt>
+File: assets/sk_test_c1.png Graphic file (type png)
+
+<use assets/sk_test_c1.png>
+Package pdftex.def Info: assets/sk_test_c1.png used on input line 128.
+(pdftex.def)             Requested size: 180.60298pt x 153.85065pt.
+
+<assets/test_c1.png, id=27, 691.58376pt x 320.19624pt>
+File: assets/test_c1.png Graphic file (type png)
+
+<use assets/test_c1.png>
+Package pdftex.def Info: assets/test_c1.png used on input line 134.
+(pdftex.def)             Requested size: 430.00462pt x 199.09125pt.
+
+Overfull \hbox (12.0pt too wide) in paragraph at lines 114--138
+[]$[]$
+ []
+
+
+Overfull \hbox (2.43332pt too wide) in paragraph at lines 114--138
+[]$ $[]$
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4 <./assets/sk_test_c1.png> <./assets/test_c1.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 149--150
+
+ []
+
+<assets/sk_test_c2.png, id=33, 363.3575pt x 316.18124pt>
+File: assets/sk_test_c2.png Graphic file (type png)
+
+<use assets/sk_test_c2.png>
+Package pdftex.def Info: assets/sk_test_c2.png used on input line 154.
+(pdftex.def)             Requested size: 165.55197pt x 144.06049pt.
+ <assets/test_c2.png, id=34, 686.565pt x 313.17pt>
+File: assets/test_c2.png Graphic file (type png)
+
+<use assets/test_c2.png>
+Package pdftex.def Info: assets/test_c2.png used on input line 160.
+(pdftex.def)             Requested size: 430.00462pt x 196.14171pt.
+
+Overfull \hbox (12.0pt too wide) in paragraph at lines 140--164
+[]$[]$
+ []
+
+
+Overfull \hbox (2.43332pt too wide) in paragraph at lines 140--164
+[]$ $[]$
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [5 <./assets/sk_test_c2.png> <./assets/test_c2.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 175--176
+
+ []
+
+<assets/sk_test_c3.png, id=40, 483.8075pt x 318.18875pt>
+File: assets/sk_test_c3.png Graphic file (type png)
+
+<use assets/sk_test_c3.png>
+Package pdftex.def Info: assets/sk_test_c3.png used on input line 180.
+(pdftex.def)             Requested size: 240.80244pt x 158.37054pt.
+
+<assets/test_c3.png, id=41, 687.56876pt x 316.18124pt>
+File: assets/test_c3.png Graphic file (type png)
+
+<use assets/test_c3.png>
+Package pdftex.def Info: assets/test_c3.png used on input line 186.
+(pdftex.def)             Requested size: 430.00462pt x 197.73822pt.
+
+Overfull \hbox (12.0pt too wide) in paragraph at lines 166--190
+[]$[]$
+ []
+
+
+Overfull \hbox (2.43332pt too wide) in paragraph at lines 166--190
+[]$ $[]$
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [6 <./assets/sk_test_c3.png> <./assets/test_c3.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
+
+ []
+
+<assets/sk_test_c4.png, id=47, 692.5875pt x 318.18875pt>
+File: assets/sk_test_c4.png Graphic file (type png)
+
+<use assets/sk_test_c4.png>
+Package pdftex.def Info: assets/sk_test_c4.png used on input line 206.
+(pdftex.def)             Requested size: 344.005pt x 158.04526pt.
+
+<assets/test_c4.png, id=48, 688.5725pt x 317.185pt>
+File: assets/test_c4.png Graphic file (type png)
+ <use assets/test_c4.png>
+Package pdftex.def Info: assets/test_c4.png used on input line 212.
+(pdftex.def)             Requested size: 430.00462pt x 198.07556pt.
+
+Overfull \hbox (12.0pt too wide) in paragraph at lines 192--216
+[]$[]$
+ []
+
+
+Overfull \hbox (23.93486pt too wide) in paragraph at lines 192--216
+[]$ $[]$
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [7 <./assets/sk_test_c4.png> <./assets/test_c4.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 227--228
+
+ []
+
+<assets/sk_test_c5.png, id=55, 561.09625pt x 420.57124pt>
+File: assets/sk_test_c5.png Graphic file (type png)
+
+<use assets/sk_test_c5.png>
+Package pdftex.def Info: assets/sk_test_c5.png used on input line 232.
+(pdftex.def)             Requested size: 301.00192pt x 225.61626pt.
+
+<assets/test_c5.png, id=56, 691.58376pt x 315.1775pt>
+File: assets/test_c5.png Graphic file (type png)
+ <use assets/test_c5.png>
+Package pdftex.def Info: assets/test_c5.png used on input line 238.
+(pdftex.def)             Requested size: 430.00462pt x 195.9707pt.
+
+Overfull \hbox (12.0pt too wide) in paragraph at lines 218--242
+[]$[]$
+ []
+
+
+Overfull \hbox (2.43332pt too wide) in paragraph at lines 218--242
+[]$ $[]$
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [8 <./assets/sk_test_c5.png> <./assets/test_c5.png>] [9]
 (/usr/local/texlive/2014/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2014/03/04 1.5c listings language file
 )
-(../cholesky.py
+(../utils.py
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [2
+ [10
 
 ]
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 42.
-
-(/usr/local/texlive/2014/texmf-dist/tex/latex/base/omlcmr.fd
-File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <9> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 42.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 45.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 47.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 45.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 47.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [3])
-[4] (../utils.py
+ [11])
+[12] (../choleski.py
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [5
+ [13
+
+
+]
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 47.
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/base/omlcmr.fd
+File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <9> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 47.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [14])
+[15] (../lrn_solver.py
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [16
 
 
 ]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [6])
-[7] (./assran_mido.aux) ) 
+ [17]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [18]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [19])
+[20] (./assran_mido.aux) ) 
 Here is how much of TeX's memory you used:
- 5890 strings out of 493117
- 84734 string characters out of 6135433
- 218133 words of memory out of 5000000
- 9108 multiletter control sequences out of 15000+600000
- 9248 words of font info for 35 fonts, out of 8000000 for 9000
+ 6760 strings out of 493117
+ 105242 string characters out of 6135433
+ 237298 words of memory out of 5000000
+ 9938 multiletter control sequences out of 15000+600000
+ 12086 words of font info for 46 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 42i,7n,43p,391b,1799s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2014/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmbx9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmcsc10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmmi9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmr10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmr7.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmr8.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmr9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cms
-y9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9
-.pfb>
-Output written on assran_mido.pdf (7 pages, 127611 bytes).
+ 42i,7n,43p,1359b,1807s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2014/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmcsc10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmmi10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmmi8.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmmi9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmr10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr7.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmr8.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
+0.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.
+pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pf
+b></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
+></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb>
+Output written on assran_mido.pdf (20 pages, 2010149 bytes).
 PDF statistics:
- 68 PDF objects out of 1000 (max. 8388607)
- 48 compressed objects within 1 object stream
+ 152 PDF objects out of 1000 (max. 8388607)
+ 92 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 56 words of extra memory for PDF output out of 10000 (max. 10000000)
 

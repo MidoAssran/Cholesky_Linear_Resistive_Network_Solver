@@ -18,9 +18,9 @@ class FiniteDifferencePotentialSolver(object):
     """
     :-------Instance Variables-------:
     :type _h: float -> The inter-mesh node spacing
-    :type _num_x_points: float -> The number of mesh points in the x direction
-    :type _num_y_points: float -> The number of mesh points in the y direction
-    :type _potentials: np.array([float]) -> The electric potential at every point in the mesh
+    :type _num_x_points: float -> Number of mesh points in the x direction
+    :type _num_y_points: float -> Number of mesh points in the y direction
+    :type _potentials: np.array([float]) -> Electric potential at nodes
     """
 
     def __init__(self, h):

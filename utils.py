@@ -77,7 +77,7 @@ def vector_to_diag(b):
     """
 
     diag_b = np.empty([b.shape[0], b.shape[0]])
-    diag_b[:] = 0     # Initialize the entries of the new diagonal matrix to zero
+    diag_b[:] = 0     # Initialize the entries to zero
 
     for i, val in enumerate(b):
         diag_b[i, i] = val
@@ -94,5 +94,10 @@ def generate_positive_semidef(order, seed=0):
     np.random.seed(seed)
     A = np.random.randn(order, order)
     A = matrix_dot_matrix(A, matrix_transpose(A))
+
+    # TODO: Replace matrix_rank with a custom function
+    from numpy.linalg import matrix_rank
+    if matrix_rank(A) != order:
+        print("WARNING: Matrix is singular!", end="\n\n")
 
     return A

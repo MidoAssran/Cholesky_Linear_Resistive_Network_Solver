@@ -1,10 +1,10 @@
 # ----------------------------------------- #
-# Cholesky Decomposition
+# Choleski Decomposition
 # ----------------------------------------- #
 # Author: Mido Assran
 # Date: 30, September, 2016
-# Description: CholeskyDecomposition solves the linear system of equations:
-# Ax = b by decomposing matrix A using Cholesky factorization and using
+# Description: CholeskiDecomposition solves the linear system of equations:
+# Ax = b by decomposing matrix A using Choleski factorization and using
 # forward and backward substitution to determine x. Matrix A must
 # be symmetric, real, and positive definite.
 
@@ -13,8 +13,13 @@ import timeit
 import numpy as np
 from utils import matrix_transpose
 
-class CholeskyDecomposition(object):
+DEBUG = True
 
+class CholeskiDecomposition(object):
+
+    def __init__(self):
+        if DEBUG:
+            np.core.arrayprint._line_width = 200
 
     def solve(self, A, b):
         """
@@ -22,6 +27,7 @@ class CholeskyDecomposition(object):
         :type b: np.array([float])
         :rtype: np.array([float])
         """
+
         start_time = timeit.default_timer()
 
         # If the matrix, A, is not square, exit
@@ -32,10 +38,9 @@ class CholeskyDecomposition(object):
 
 
         # -------------------------------------------------------------- #
-        # Simultaneous cholesky factorization of A and chol-elimination
+        # Simultaneous Choleski factorization of A and chol-elimination
         # -------------------------------------------------------------- #
-
-        # Cholesky factorization & forward substitution
+        # Choleski factorization & forward substitution
         for j in range(n):
 
             # If the matrix A is not positive definite, exit
@@ -75,7 +80,9 @@ class CholeskyDecomposition(object):
         # -------------------------------------------------------------- #
 
         elapsed_time = timeit.default_timer() - start_time
-        print("Execution time: ", elapsed_time, end="\n\n")
+
+        if DEBUG:
+            print("Execution time:\n", elapsed_time, end="\n\n")
 
         # The solution was overwritten in the vector b
         return b
@@ -88,8 +95,9 @@ if __name__ == "__main__":
 
     print("\n", end="\n")
     print("# --------------- TEST --------------- #", end="\n")
-    print("# ------ Cholesky Decomposition ------ #", end="\n")
-    print("# ------------------------------------ #", end ="\n\n")
+    print("# ------ Choleski Decomposition ------ #", end="\n")
+    print("# ------------------------------------ #", end="\n\n")
+    chol_d = CholeskiDecomposition()
     # Create a symmetric, real, positive definite matrix.
     A = generate_positive_semidef(order=order, seed=seed)
     x = np.random.randn(order)
@@ -97,8 +105,7 @@ if __name__ == "__main__":
     print("A:\n", A, end="\n\n")
     print("x:\n", x, end="\n\n")
     print("b (=Ax):\n", b, end="\n\n")
-    chol_d = CholeskyDecomposition()
     v = chol_d.solve(A=A, b=b)
-    print("chol_d.solve(A, b):\n", v, end="\n\n")
+    print("result = solve(A, b):\n", v, end="\n\n")
     print("2-norm error:\n", np.linalg.norm(v - x), end="\n\n")
-    print("# ------------------------------------ #", end ="\n\n")
+    print("# ------------------------------------ #", end="\n\n")

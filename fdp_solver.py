@@ -11,7 +11,7 @@ import random
 import numpy as np
 from conductor_description import *
 
-DEBUG = False
+DEBUG = True
 
 class FiniteDifferencePotentialSolver(object):
 
@@ -51,21 +51,22 @@ class FiniteDifferencePotentialSolver(object):
         self._bottom_spacing_matrix[:] = 1
 
         # # Create unequal row spacings
-        # normalizer_x = self._num_x_points - 0; normalizer_y = self._num_y_points - 3.5
-        # self.create_unequal_node_spacing_matrix_row(self._right_spacing_matrix, x_midpoint, normalizer_x)
+        # self.create_unequal_node_spacing_matrix_row(self._right_spacing_matrix, x_midpoint)
         # self._left_spacing_matrix[:] = self._right_spacing_matrix[:]
         # # Create unequal column spacings
-        # self.create_unequal_node_spacing_matrix_column(self._bottom_spacing_matrix, y_midpoint, normalizer_y)
+        # self.create_unequal_node_spacing_matrix_column(self._bottom_spacing_matrix, y_midpoint)
         # self._top_spacing_matrix[:] = self._bottom_spacing_matrix[:]
 
         # Create boundaries for unequal spacing matrices
         z = np.empty((1, self._num_y_points))
         z[:] = self._right_spacing_matrix[-1, 0]
         self._right_spacing_matrix = np.append(self._right_spacing_matrix, z, axis=0)
+        z[:] = 0
         self._left_spacing_matrix = np.append(z, self._left_spacing_matrix, axis=0)
         z = np.empty((self._num_x_points, 1))
         z[:] = self._top_spacing_matrix[0, -1]
         self._top_spacing_matrix = np.append(self._top_spacing_matrix, z, axis=1)
+        z[:] = 0
         self._bottom_spacing_matrix = np.append(z, self._bottom_spacing_matrix, axis=1)
 
         # Initialize potentials matrix according to the boundary coniditions
@@ -81,7 +82,8 @@ class FiniteDifferencePotentialSolver(object):
         self._potentials = potentials
 
         if DEBUG:
-            print(self._right_spacing_matrix)
+            print(self._left_spacing_matrix)
+            print(self._bottom_spacing_matrix)
             # for i in range(self._num_x_points):
             #     for j in range(self._num_y_points):
             #         print(self.map_indices_to_coordinates((i,j)))
@@ -89,14 +91,14 @@ class FiniteDifferencePotentialSolver(object):
 
 
     def create_unequal_node_spacing_matrix_column(self, fill_in_matrix,
-                                                  edge_length, normalizer):
+                                                  edge_length):
         """
         :type fill_in_matrix: np.array([float])
         :rtype: void
         """
         for i in range(fill_in_matrix.shape[1]):
             column = fill_in_matrix[:, i]
-            normalizer = normalizer
+            normalizer = len(column) - 5
             sum_sub_column = (((len(column) * (len(column) + 1)) / 2) - len(column)) / normalizer
 
             column[:] = np.array([i / normalizer for i in range(len(column), 0, -1)])
@@ -107,13 +109,13 @@ class FiniteDifferencePotentialSolver(object):
 
 
     def create_unequal_node_spacing_matrix_row(self, fill_in_matrix,
-                                               edge_length, normalizer):
+                                               edge_length):
         """
         :type fill_in_matrix: np.array([float])
         :rtype: void
         """
         for i, row in enumerate(fill_in_matrix):
-            normalizer = normalizer
+            normalizer = len(row) - 5
             sum_sub_row = (((len(row) * (len(row) + 1)) / 2) - len(row)) / normalizer
 
             # Create smaller mesh spacing towards the end of the row, and
@@ -132,12 +134,12 @@ class FiniteDifferencePotentialSolver(object):
         :rtype: (float, float)
         """
         x, y = 0, 0
-        for i in range(indices[0]):
-            x += self._right_spacing_matrix[0, i]
+        for i in range(indices[0] + 1):
+            x += self._left_spacing_matrix[i, 0]
         x *= self._h
 
-        for i in range(indices[1]):
-            y += self._top_spacing_matrix[i, 0]
+        for i in range(indices[1] + 1):
+            y += self._bottom_spacing_matrix[0, i]
         y *= self._h
 
         coordinates = (x , y)
@@ -153,7 +155,7 @@ class FiniteDifferencePotentialSolver(object):
         i, j = 0, 0
         x, y = 0, 0
 
-        while (coordinates[0] - x) > (0.5 * self._h * self._right_spacing_matrix[i, 0]):
+        while (coordinates[0] - x) > (0.5 * self._h * self._right_spacing_matrix[0, i]):
             x += self._right_spacing_matrix[i, 0] * self._h
             i += 1
 
@@ -497,9 +499,9 @@ class FiniteDifferencePotentialSolver(object):
         return (itr, self._potentials)
 
 if __name__ == "__main__":
-    fndps = FiniteDifferencePotentialSolver(h=0.0025)
-    num_itr, potentials = fndps.solve_jacobi(max_residual=1e-5)
-    # num_itr, potentials = fndps.solve_sor(max_residual=1e-5, omega=1.3)
+    fndps = FiniteDifferencePotentialSolver(h=0.01)
+    # num_itr, potentials = fndps.solve_jacobi(max_residual=1e-5)
+    num_itr, potentials = fndps.solve_sor(max_residual=1e-5, omega=1.3)
     indices = fndps.map_coordinates_to_indices((0.06, 0.04))
     p = potentials[indices]
     print("num_itr:\n", num_itr, end="\n\n")

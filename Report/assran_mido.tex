@@ -375,7 +375,7 @@ A program used to find the potentials at the nodes of a regular mesh in the air 
 \end{center}
 
 \subsection*{Part b}
-A plot of the number of iterations vs omega for h=0.02 is shown in Figure \ref{fig:itr_vs_omega}. In addition the results are tabulated in Table \ref{tbl:fdm_mesh_1}.
+A plot of the number of iterations vs $\omega$ for $h=0.02$ is shown in Figure \ref{fig:itr_vs_omega}. In addition the results are tabulated in Table \ref{tbl:fdm_mesh_1}.
 
 \begin{table}[h!]
     \caption{SOR: Finite Difference Mesh with h=0.02}
@@ -456,7 +456,14 @@ The values of the potential at the point (0.06, 0.04) versus 1/h are shown in Ta
 \end{center}
 
 \subsection*{Part e}
-The uneven node spacing is accomplished by creating a matrix of right node spacings, left node spacings, top node spacings, and bottom node spacings, which contains information regarding the inter-node separation at each point in the mesh. When producing these spacings matrices, the program ensures that the physical width of each row and each column is still consistent with the physical dimensions of the system. These matrices are used with the modified algorithm to produce the results depicted below.
+The creation of the uneven spacing is made possible by the introduction of the node spacing data structures mentioned in \textit{Part a}. The uneven node spacing matrices consist of the right node spacings matrix, the left node spacings matrix, the top node spacings matrix, and the bottom node spacings matrix. These matrices are used to scale the values of h at each node's relative distance to its neighbour. When producing these spacings matrices, the program ensures that the physical width of each row and each column is still consistent with the physical dimensions of the system. These matrices are used with the modified algorithm to produce the results depicted below in Figure \ref{fig:uneven_spacing}. Since the node spacings are non-uniform in both the rows and the columns, it is not always possible to determine the potential at a specific point, in which case, the potential at the nearest node is taken to apply to that point. In Figure \ref{fig:uneven_spacing}, the point (0.06, 0.04) in the mesh is approximated by the nearest node, which is located at (0.0625, 0.044). The value of the potential achieved in this unequal node spacing case is $38.75V$ (using the same number of mesh nodes as the h=0.01 case). This value achieved is more accurate than that achieved for the equal node spacing case at h=0.01, which was $39.24V$. The improved node spacing involved making the node spacing closer towards the conductor in both the $'x'$ direction and the $'y'$ direction. However, even the $'x'$ and the $'y'$ directions did not have the same distribution of node spacing.
+
+\begin{center}
+	\begin{figure}[h]
+		\caption{Console output for uneven node spacing at $h=0.01$}
+		\includegraphics[width=\textwidth]{assets/uneven_spacing.png}\label{fig:uneven_spacing}
+	\end{figure}
+\end{center}
 
 \begin{landscape}
 	\lstinputlisting[language=Python, label=lstng:utils, frame=single, caption=utils.py]{../utils.py}

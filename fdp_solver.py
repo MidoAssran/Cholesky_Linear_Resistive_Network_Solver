@@ -11,7 +11,7 @@ import random
 import numpy as np
 from conductor_description import *
 
-DEBUG = True
+DEBUG = False
 
 class FiniteDifferencePotentialSolver(object):
 
@@ -50,12 +50,12 @@ class FiniteDifferencePotentialSolver(object):
         self._top_spacing_matrix[:] = 1
         self._bottom_spacing_matrix[:] = 1
 
-        # # Create unequal row spacings
-        # self.create_unequal_node_spacing_matrix_row(self._right_spacing_matrix, x_midpoint)
-        # self._left_spacing_matrix[:] = self._right_spacing_matrix[:]
-        # # Create unequal column spacings
-        # self.create_unequal_node_spacing_matrix_column(self._bottom_spacing_matrix, y_midpoint)
-        # self._top_spacing_matrix[:] = self._bottom_spacing_matrix[:]
+        # Create unequal row spacings
+        self.create_unequal_node_spacing_matrix_column(self._right_spacing_matrix, x_midpoint)
+        self._left_spacing_matrix[:] = self._right_spacing_matrix[:]
+        # Create unequal column spacings
+        self.create_unequal_node_spacing_matrix_row(self._bottom_spacing_matrix, y_midpoint)
+        self._top_spacing_matrix[:] = self._bottom_spacing_matrix[:]
 
         # Create boundaries for unequal spacing matrices
         z = np.empty((1, self._num_y_points))
@@ -84,9 +84,9 @@ class FiniteDifferencePotentialSolver(object):
         if DEBUG:
             print(self._left_spacing_matrix)
             print(self._bottom_spacing_matrix)
-            # for i in range(self._num_x_points):
-            #     for j in range(self._num_y_points):
-            #         print(self.map_indices_to_coordinates((i,j)))
+            for i in range(self._num_x_points):
+                for j in range(self._num_y_points):
+                    print(self.map_indices_to_coordinates((i,j)))
 
 
 
@@ -98,7 +98,7 @@ class FiniteDifferencePotentialSolver(object):
         """
         for i in range(fill_in_matrix.shape[1]):
             column = fill_in_matrix[:, i]
-            normalizer = len(column) - 5
+            normalizer = len(column) + 2
             sum_sub_column = (((len(column) * (len(column) + 1)) / 2) - len(column)) / normalizer
 
             column[:] = np.array([i / normalizer for i in range(len(column), 0, -1)])
@@ -155,11 +155,11 @@ class FiniteDifferencePotentialSolver(object):
         i, j = 0, 0
         x, y = 0, 0
 
-        while (coordinates[0] - x) > (0.5 * self._h * self._right_spacing_matrix[0, i]):
+        while (coordinates[0] - x) > (0.5 * self._h * self._right_spacing_matrix[i, 0]):
             x += self._right_spacing_matrix[i, 0] * self._h
             i += 1
 
-        while (coordinates[1] - y) > (0.5 * self._h * self._top_spacing_matrix[i, 0]):
+        while (coordinates[1] - y) > (0.5 * self._h * self._top_spacing_matrix[0, j]):
             y += self._top_spacing_matrix[0, j] * self._h
             j += 1
 

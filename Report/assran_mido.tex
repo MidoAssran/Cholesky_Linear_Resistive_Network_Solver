@@ -291,14 +291,12 @@ A program used to solved tor the node voltages in a linear resistive network is 
 	15 & 1.5176349109970033
     \end{tabular}
 \end{table}
-\vspace{3em}
 \begin{center}
 	\begin{figure}[h]
 		\caption{Choleski Elimination Timing vs Mesh Size (No Sparsity Optimization)}
 		\includegraphics[width=0.85\textwidth]{assets/t_vs_n_unopt.png}\label{fig:t_n_unopt}
 	\end{figure}
 \end{center}
-\vspace{3em}
 \begin{center}
 	\begin{figure}[h]
 		\caption{Choleski Elimination Normalized Timing vs Mesh Size (No Sparsity Optimization)}
@@ -402,7 +400,7 @@ A plot of the number of iterations vs $\omega$ for $h=0.02$ is shown in Figure \
 \end{center}
 
 \subsection*{Part c}
-The values of the potential at the point (0.06, 0.04) versus 1/h are shown in Table \ref{tbl:fdm_mesh_2} and Figure \ref{fig:point_vs_1_o_h}. The number of iterations plotted versus 1/h are also shown in Table \ref{tbl:fdm_mesh_2} and Figure \ref{fig:itr_vs_1_o_h}. It is anticipated that the potential at (0.06, 0.04) is actually equal to $38.5 V$ based on the asymptotic behaviour of Figure \ref{fig:point_vs_1_o_h}. It is in fact interesting to note the asymptotic behaviour of the potential as we decrease the mesh spacing, and consequently increase the number of nodes. It is also interesting to note that faster-than-linear increase in the number of iterations versus 1 / h. This actually indicates that the number of iterations scales proportionally to the number of mesh points used.
+The values of the potential at the point (0.06, 0.04) versus 1/h are shown in Table \ref{tbl:fdm_mesh_2} and Figure \ref{fig:point_vs_1_o_h}. The number of iterations plotted versus 1/h are also shown in Table \ref{tbl:fdm_mesh_2} and Figure \ref{fig:itr_vs_1_o_h}. It is anticipated that the potential at (0.06, 0.04) is actually equal to $38.5 V$ based on the asymptotic behaviour of Figure \ref{fig:point_vs_1_o_h}. It is interesting to note that the potential function behaves asymptotically as we decrease the mesh spacing, and consequently increase the number of nodes; that is, the potential function gravitates towards its true value as we increase the mesh node density and improve the accuracy of the program. Another interesting point is that the number of iterations required to solve the program scale faster-than-linearly when plotted versus 1/h. That is, the number of iterations taken to solve the mesh problem scales up quickly with the number of mesh nodes introduced into the problem - an expected result.
 
 \begin{table}[h!]
     \caption{SOR: Finite Difference Mesh with $\omega =1.3$}
@@ -429,7 +427,7 @@ The values of the potential at the point (0.06, 0.04) versus 1/h are shown in Ta
 \end{center}
 
 \subsection*{Part d}
-The values of the potential at the point (0.06, 0.04) versus 1/h are shown in Table \ref{tbl:fdm_mesh_3} and Figure \ref{fig:J_point_vs_1_o_h} for the Jacobi method. The number of iterations plotted versus 1/h are also shown in Table \ref{tbl:fdm_mesh_3} and Figure \ref{fig:J_itr_vs_1_o_h}. It is anticipated that the potential at (0.06, 0.04) is actually equal to $38.5 V$ based on the asymptotic behaviour of Figure \ref{fig:J_point_vs_1_o_h}. It is in fact interesting to note the asymptotic behaviour of the potential as we decrease the mesh spacing, and consequently increase the number of nodes. It is also interesting to note that faster-than-linear increase in the number of iterations versus 1 / h. This actually indicates that the number of iterations scales proportionally to the number of mesh points used. The properties of the Jacobi plots are identical to those of the SOR method with the exception that the Jacobi method actually underperforms the SOR method in terms of the magnitude of iterations required to achieve an acceptable residual.
+The values of the potential at the point (0.06, 0.04) versus 1/h are shown in Table \ref{tbl:fdm_mesh_3} and Figure \ref{fig:J_point_vs_1_o_h} for the Jacobi method. The number of iterations plotted versus 1/h are also shown in Table \ref{tbl:fdm_mesh_3} and Figure \ref{fig:J_itr_vs_1_o_h}. It is anticipated that the potential at (0.06, 0.04) is actually equal to $38.5 V$ based on the asymptotic behaviour of Figure \ref{fig:J_point_vs_1_o_h}. It is interesting to note that the potential function behaves asymptotically as we decrease the mesh spacing, and consequently increase the number of nodes; that is, the potential function gravitates towards its true value as we increase the mesh node density and improve the accuracy of the program. Another interesting point is that the number of iterations required to solve the program scale faster-than-linearly when plotted versus 1/h. That is, the number of iterations taken to solve the mesh problem scales up quickly with the number of mesh nodes introduced into the problem - an expected result. Most importantly however, the properties of the Jacobi plots are identical to those of the SOR method with the exception that the Jacobi method actually underperforms the SOR method in terms of the number of iterations required to achieve an acceptable residual.
 
 \begin{table}[h!]
     \caption{Jacobi Method Finite Difference Mesh with $\omega =1.3$}
@@ -438,7 +436,7 @@ The values of the potential at the point (0.06, 0.04) versus 1/h are shown in Ta
     	\textbf{h} & \textbf{Iterations} & \textbf{(0.06, 0.04)}\\ \hline \\
 	0.02 & 88 & 40.5264917649\\
 	0.01 & 337 & 39.2382738646\\
-	0.005 & 1226 &138.7882251067\\
+	0.005 & 1226 & 38.7882251067\\
 	0.0025 & 4365 & 38.6173665171
     \end{tabular}
 \end{table}
@@ -456,7 +454,7 @@ The values of the potential at the point (0.06, 0.04) versus 1/h are shown in Ta
 \end{center}
 
 \subsection*{Part e}
-The creation of the uneven spacing is made possible by the introduction of the node spacing data structures mentioned in \textit{Part a}. The uneven node spacing matrices consist of the right node spacings matrix, the left node spacings matrix, the top node spacings matrix, and the bottom node spacings matrix. These matrices are used to scale the values of h at each node's relative distance to its neighbour. When producing these spacings matrices, the program ensures that the physical width of each row and each column is still consistent with the physical dimensions of the system. These matrices are used with the modified algorithm to produce the results depicted below in Figure \ref{fig:uneven_spacing}. Since the node spacings are non-uniform in both the rows and the columns, it is not always possible to determine the potential at a specific point, in which case, the potential at the nearest node is taken to apply to that point. In Figure \ref{fig:uneven_spacing}, the point (0.06, 0.04) in the mesh is approximated by the nearest node, which is located at (0.0625, 0.044). The value of the potential achieved in this unequal node spacing case is $38.75V$ (using the same number of mesh nodes as the h=0.01 case). This value achieved is more accurate than that achieved for the equal node spacing case at h=0.01, which was $39.24V$. The improved node spacing involved making the node spacing closer towards the conductor in both the $'x'$ direction and the $'y'$ direction. However, even the $'x'$ and the $'y'$ directions did not have the same distribution of node spacing.
+The creation of the uneven spacing is made possible by the introduction of the node spacing data structures mentioned in \textit{Part a}. The uneven node spacing matrices consist of the right node spacings matrix, the left node spacings matrix, the top node spacings matrix, and the bottom node spacings matrix. These matrices are used to scale the values of h at each node's relative distance to its neighbour. When producing these spacings matrices, the program ensures that the physical width of each row and each column is still consistent with the physical dimensions of the system. These matrices are used with the modified algorithm to produce the results depicted below in Figure \ref{fig:uneven_spacing}. Since the node spacings are non-uniform in both the rows and the columns, it is not always possible to determine the potential at a specific point, in which case, the potential at the nearest node is taken to apply to that point. In Figure \ref{fig:uneven_spacing}, the point (0.06, 0.04) in the mesh is approximated by the nearest node, which is located at (0.0625, 0.044). The value of the potential achieved in this unequal node spacing case is $38.75V$ (using the same number of mesh nodes as the h=0.01 case). This value achieved is more accurate than that achieved for the equal node spacing case at h=0.01, which was $39.24V$. The improved node spacing involved making the node spacing closer towards the conductor in both the $x$ direction and the $y$ direction. However, even the $x$ and the $y$ directions did not have the same distribution of node spacing. To make the console output easier to visualize, it is useful to note that the top left corner in the console outputted matrix corresponds to the bottom left corner of the structure, and that $x$ increases as one moves down the column, and $y$ increases as one moves across a row. The reason that the charged conductor seems flush against the grounded conductor in this example, is due to the fact that the node spacings are very close in the vicinity of the conductor.
 
 \begin{center}
 	\begin{figure}[h]
